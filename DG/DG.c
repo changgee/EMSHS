@@ -21,9 +21,9 @@ int main()
 	int p, grp, R, batch, batch_size, ds, where;
 
 	p = 1000;
-	grp = 30;
+	grp = 50;
 	R = 100;
-	batch_size = 50;
+	batch_size = 10;
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -100,7 +100,7 @@ int main()
 			fputs(line,f);
 			sprintf(line,"g = %d\n",grp);
 			fputs(line,f);
-			fputs("gsm = 20\n",f);
+			fputs("gsm = 30\n",f);
 			fputs("n = 50\n",f);
 			fputs("sigma2 = 1\n",f);
 			sprintf(line,"batch = %d\n",batch);
