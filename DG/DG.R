@@ -1,3 +1,4 @@
+# seed: seed value for random numbers
 # p: # of genes
 # g: # of pathways
 # gsm: expected size of a pathway
@@ -15,7 +16,7 @@
 # Gthres: the threshold when Gmode=2
 # savefile: file to save data
 
-DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.1,eduu=0.1,Gmode=0,Gthres=0.05,savefile=NULL)
+DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.05,savefile=NULL)
 {
   set.seed(seed)
   
@@ -44,17 +45,17 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.1,eduu=0.1
         if ( k<=q )
         {
           if ( runif(1) < edii )
-            rbind(Eg,matrix(c(j,k,k,j),2,2))
+            Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))
         }
         else if ( j<=q )
         {
           if ( runif(1) < ediu )
-            rbind(Eg,matrix(c(j,k,k,j),2,2))
+            Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))
         }
         else
         {
           if ( runif(1) < eduu )
-            rbind(Eg,matrix(c(j,k,k,j),2,2))
+            Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))
         }
       }
     E0 = rbind(E0,Eg)
