@@ -107,6 +107,7 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.
   else if ( Gmode==1 )
   {
     e = nE0/2
+    E = matrix(0,nE0,2)
     E[1:e,1] = sample(1:p,e,T)
     E[e+1:e,1] = sample(1:p,e,T)
     E[1:e,2] = E[e+1:e,1]
