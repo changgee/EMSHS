@@ -15,8 +15,8 @@
 # eps:     algorithm stops if relative improvement goes below eps
 
 
-if ( file.exists("~/projects/EMSHS/EMSH/DWL.R") )
-  source("~/projects/EMSHS/EMSH/DWL.R")
+if ( file.exists("~/project/EMSHS/EMSH/DWL.R") )
+  source("~/project/EMSHS/EMSH/DWL.R")
 if ( file.exists("EMSH/DWL.R") )
   source("EMSH/DWL.R")
 
