@@ -1,6 +1,6 @@
 # Function EMSHS
 # written by Changgee Chang
-# ver. 20160329
+# ver. 20170831
 #
 # y:       n by 1 response
 # X:       n by p predictors
@@ -15,7 +15,10 @@
 # eps:     algorithm stops if relative improvement goes below eps
 
 
-source("EMSH/DWL.R")
+if ( file.exists("~/projects/EMSHS/EMSH/DWL.R") )
+  source("~/projects/EMSHS/EMSH/DWL.R")
+if ( file.exists("EMSH/DWL.R") )
+  source("EMSH/DWL.R")
 
 
 EMSHS <- function(y,X,mus,nu,E=NULL,a_sigma=1,b_sigma=1,a_omega=2,b_omega=1,sigma_init=NULL,alpha_init=NULL,descent="diagonal",w=1,eps=1e-5)

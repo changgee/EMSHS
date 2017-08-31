@@ -1,6 +1,6 @@
 # DWL Algorithm
 # written by Changgee Chang
-# ver 20160329
+# ver 20170831
 #
 # Usage:
 # Set the global variables DWL.X and DWL.y
