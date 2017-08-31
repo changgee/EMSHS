@@ -81,7 +81,7 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.1,eduu=0.1
   dA = apply(A^2,1,sum)
   A = A / sqrt(dA)
 
-  beta = c(rep(1,q),rep(0,p-q))
+  beta = c(runif(q,1,3),rep(0,p-q))
 
   X = matrix(rnorm(n*p),n) %*% t(A)
   y = drop(X%*%beta + sqrt(sigma2)*rnorm(n))
