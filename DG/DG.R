@@ -16,6 +16,15 @@
 # Gthres: the threshold when Gmode=2
 # savefile: file to save data
 
+DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.05,batch=0)
+{
+  for ( i in 1:R )
+  {
+    fname = sprintf("%s/data%03d",head,batch+i)
+    DG(seed+batch+i,p,g,gsm,ntrain,ntune,ntest,sigma2,edii,ediu,eduu,Gmode,Gthres,fname)
+  }
+}
+
 DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.05,savefile=NULL)
 {
   set.seed(seed)
