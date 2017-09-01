@@ -4,46 +4,49 @@ if ( file.exists("EMSH/EMSHS.R") )
   source("EMSH/EMSHS.R")
 
 
-SimEMSHS <- function(r,mu,nu,useE=TRUE,a_omega=2,head,offset=0)
+SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
 {
-  M = length(mu)
-  FNtune = matrix(0,M,r)
-  FPtune = matrix(0,M,r)
-  MSPEtune = matrix(0,M,r)
-  FN = rep(0,r)
-  FP = rep(0,r)
-  MSPE = rep(0,r)
-  
-  before = proc.time()
+  D1 = length(mu)
+  D2 = length(nu)
+  D3 = length(a_omega)
+
+  FNrate = array(0,c(D1,D2,D3,r))
+  FPrate = array(0,c(D1,D2,D3,r))
+  MSTE = array(0,c(D1,D2,D3,r))
+  MSPE = array(0,c(D1,D2,D3,r))
+  omegaii = array(0,c(D1,D2,D3,r))
+  omegaiu = array(0,c(D1,D2,D3,r))
+  omegauu = array(0,c(D1,D2,D3,r))
+  time = array(0,c(D1,D2,D3,r))
+
   for ( i in 1:r )
   {
     print(i)
-    load(sprintf("%s/dataset%03d",head,offset+i))
-    if ( i==1 )
-      beta = matrix(0,dataset$p,M)
+    load(sprintf("%s/data%03d",datapath,batch+i))
+    i1 = E[,1]<=data$q
+    i2 = E[,2]<=data$q
+    ii = i1 & i2
+    iu = xor(i1,i2)
+    uu = !i1 & !i2
     
-    for ( j in 1:M )
-    {
-      print(j)
-      if ( useE )
-        fit = EMSHS(dataset$y,dataset$X,mu[j],nu,dataset$E,a_omega=a_omega,descent="diagonal")
-      else
-        fit = EMSHS(dataset$y,dataset$X,mu[j],nu,descent="diagonal") 
-      beta[,j] = fit$beta
-      FNtune[j,i] = sum(fit$beta[1:dataset$q,]==0)
-      FPtune[j,i] = sum(fit$beta[(dataset$q+1):dataset$p,]!=0)
-    }
-    
-    yhattune = dataset$Xtune %*% beta
-    MSPEtune[,i] = apply((dataset$ytune-yhattune)^2,2,mean)
-    j = which.min(MSPEtune[,i])
-    FN[i] = FNtune[j,i]
-    FP[i] = FPtune[j,i]
-    yhat = dataset$Xtest %*% beta[,j]
-    MSPE[i] = mean((dataset$ytest-yhat)^2)
+    for ( d1 in 1:D1 )
+      for ( d2 in 1:D2 )
+        for ( d3 in 1:D3 )
+        {
+          if ( a_omega[d3]>0 )
+            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],dataset$E,a_omega=a_omega[d3]))
+          else
+            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))
+          FNrate0[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
+          FPrate0[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
+          MSTE0[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
+          MSPE0[d1,d2,d3,i] = mean((data$ytest-data$Xtest%*%fit$beta[,1])^2)
+          omegaii0[d1,d2,d3,i] = mean(fit$omega[ii,1])
+          omegaiu0[d1,d2,d3,i] = mean(fit$omega[iu,1])
+          omegauu0[d1,d2,d3,i] = mean(fit$omega[uu,1])
+        }
   }  
   
-  after = proc.time() - before
-  list(r=r,mu=mu,nu=nu,c=c,pred=T,vs=T,FNtune=FNtune,FPtune=FPtune,MSPEtune=MSPEtune,FN=FN,FP=FP,MSPE=MSPE,time=after[1])
+  list(r=r,batch=batch,mu=mu,nu=nu,a_omega=a_omega,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,omegaii=omegaii,omegaiu=omegaiu,omegauu=omegauu,time=time)
 }
 
