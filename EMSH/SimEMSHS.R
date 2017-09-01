@@ -45,4 +45,5 @@ SimEMSHS <- function(r,mu,nu,useE=TRUE,a_omega=2,head,offset=0)
   
   after = proc.time() - before
   list(r=r,mu=mu,nu=nu,c=c,pred=T,vs=T,FNtune=FNtune,FPtune=FPtune,MSPEtune=MSPEtune,FN=FN,FP=FP,MSPE=MSPE,time=after[1])
+}
 
