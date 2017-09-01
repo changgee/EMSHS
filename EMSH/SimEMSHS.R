@@ -1,7 +1,7 @@
-if ( file.exists("/longgroup/changgee/EMSHS/EMSH/EMSHS.R") )
-  source("/longgroup/changgee/EMSHS/EMSH/EMSHS.R")
 if ( file.exists("~/project/EMSHS/EMSH/EMSHS.R") )
   source("~/project/EMSHS/EMSH/EMSHS.R")
+if ( file.exists("EMSH/EMSHS.R") )
+  source("EMSH/EMSHS.R")
 
 
 SimEMSHS <- function(r,mu,nu,useE=TRUE,a_omega=2,head,offset=0)
