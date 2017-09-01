@@ -75,7 +75,7 @@ EMSHS <- function(y,X,mus,nu,E=NULL,a_sigma=1,b_sigma=1,a_omega=2,b_omega=1,sigm
   betas = matrix(0,p,M)
   sigmas = rep(0,M)
   alphas = matrix(0,p,M)
-  
+  omegas = matrix(0,e,M)
 
   
   for ( mm in 1:M )
@@ -210,10 +210,10 @@ EMSHS <- function(y,X,mus,nu,E=NULL,a_sigma=1,b_sigma=1,a_omega=2,b_omega=1,sigm
     betas[,mm] = beta
     sigmas[mm] = sigma
     alphas[,mm] = alpha
-  
+    omegas[,mm] = Eomega
   }
   
-  list(niter=niters,Q=Qs,beta=betas,sigma=sigmas,alpha=alphas,lambda=exp(alphas),omega=Eomega,y=y,X=X,w=w,E=E,mu=mus,nu=nu,a_sigma=a_sigma,b_sigma=b_sigma,a_omega=a_omega,b_omega=b_omega,descent=descent,eps=eps)
+  list(niter=niters,Q=Qs,beta=betas,sigma=sigmas,alpha=alphas,lambda=exp(alphas),omega=omegas,y=y,X=X,w=w,E=E,mu=mus,nu=nu,a_sigma=a_sigma,b_sigma=b_sigma,a_omega=a_omega,b_omega=b_omega,descent=descent,eps=eps)
 }
 
 
