@@ -213,9 +213,8 @@ EMSHS <- function(y,X,mus,nu,E=NULL,a_sigma=1,b_sigma=1,a_omega=2,b_omega=1,sigm
   
   }
   
-  list(niter=niters,Q=Qs,beta=betas,sigma=sigmas,alpha=alphas,lambda=exp(alphas),y=y,X=X,w=w,E=E,mu=mus,nu=nu,a_sigma=a_sigma,b_sigma=b_sigma,a_omega=a_omega,b_omega=b_omega,descent=descent,eps=eps)
+  list(niter=niters,Q=Qs,beta=betas,sigma=sigmas,alpha=alphas,lambda=exp(alphas),omega=Eomega,y=y,X=X,w=w,E=E,mu=mus,nu=nu,a_sigma=a_sigma,b_sigma=b_sigma,a_omega=a_omega,b_omega=b_omega,descent=descent,eps=eps)
 }
-
 
 
 
