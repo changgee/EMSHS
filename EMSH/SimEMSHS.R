@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 source("EMSH/EMSHS.R")
+=======
+source("/longgroup/changgee/Prj2/EMSH/EMSHS.R")
+>>>>>>> 7d4f4242f163c24fce8446d9b871c4c6c5607a1f
 
 SimEMShrink <- function(r,mu,nu,useE=TRUE)
 {
