@@ -23,8 +23,8 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
   {
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
-    i1 = E[,1]<=data$q
-    i2 = E[,2]<=data$q
+    i1 = data$E[,1]<=data$q
+    i2 = data$E[,2]<=data$q
     ii = i1 & i2
     iu = xor(i1,i2)
     uu = !i1 & !i2
@@ -34,7 +34,7 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
         for ( d3 in 1:D3 )
         {
           if ( a_omega[d3]>0 )
-            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],dataset$E,a_omega=a_omega[d3]))
+            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))
           else
             time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))
           FNrate0[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
