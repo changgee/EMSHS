@@ -1,33 +1,5 @@
 source("/longgroup/changgee/Prj2/EMSH/EMSHS.R")
 
-SimEMShrink <- function(r,mu,nu,useE=TRUE)
-{
-  l = length(mu)
-  FN = rep(0,l)
-  FP = rep(0,l)
-  MSPE = rep(0,l)
-  
-  before = proc.time()
-  for ( i in 1:r )
-  {
-    source("SimulSet.R")
-    for ( s in 1:l )
-    {
-      if ( useE )
-        res = EMShrink(y,X,mu[s],nu,t(E))
-      else
-        res = EMShrink(y,X,mu[s],nu)      
-      
-      FN[s] = FN[s] + mean(res$beta[1:10] == 0)
-      FP[s] = FP[s] + mean(res$beta[11:100] != 0)
-      
-      yhat = Xtest %*% res$beta
-      MSPE[s] = MSPE[s] + mean((ytest-yhat)^2)
-    }
-  }
-  after = proc.time() - before
-  list(mu=mu,nu=nu,FN=FN/r,FP=FP/r,MSPE=MSPE/r,r=r,timePerDataset=after[1]/r) 
-}
 
 SimEMSHS <- function(r,mu,nu,useE=TRUE,a_omega=2,head,offset=0)
 {
