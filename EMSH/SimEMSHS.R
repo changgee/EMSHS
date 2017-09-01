@@ -34,16 +34,19 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
         for ( d3 in 1:D3 )
         {
           if ( a_omega[d3]>0 )
-            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))
+            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))[1]
           else
-            time0[d1,d2,d3,i] = System.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))
-          FNrate0[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
-          FPrate0[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
-          MSTE0[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
-          MSPE0[d1,d2,d3,i] = mean((data$ytest-data$Xtest%*%fit$beta[,1])^2)
-          omegaii0[d1,d2,d3,i] = mean(fit$omega[ii,1])
-          omegaiu0[d1,d2,d3,i] = mean(fit$omega[iu,1])
-          omegauu0[d1,d2,d3,i] = mean(fit$omega[uu,1])
+            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],a_omega=a_omega[d3]))[1]
+          FNrate[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
+          FPrate[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
+          MSTE[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
+          MSPE[d1,d2,d3,i] = mean((data$ytest-data$Xtest%*%fit$beta[,1])^2)
+          if ( a_omega[d3]>0 )
+          {
+            omegaii[d1,d2,d3,i] = mean(fit$omega[ii,1])
+            omegaiu[d1,d2,d3,i] = mean(fit$omega[iu,1])
+            omegauu[d1,d2,d3,i] = mean(fit$omega[uu,1])
+          }
         }
   }  
   

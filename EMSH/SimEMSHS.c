@@ -24,7 +24,7 @@ int main()
 
 	p = 1000;
 	R = 100;
-	batch_size = 10;
+	batch_size = 5;
 
 	strcpy(method,"EMSHS");
 
@@ -99,13 +99,13 @@ int main()
 			sprintf(line,"source(\"%s/%s\")\n",home,src);
 			fputs(line,f);
 
-			sprintf(line,"r = %d\n",R);
+			sprintf(line,"r = %d\n",batch_size);
 			fputs(line,f);
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
 			fputs("mu = 18:22/3\n",f);
-			fputs("nu = 0:4/10\n",f);
+			fputs("nu = 1:5/10\n",f);
 			fputs("c = 0:4\n",f);
 
 			sprintf(line,"%s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
