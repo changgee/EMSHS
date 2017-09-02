@@ -36,7 +36,7 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
           if ( a_omega[d3]>0 )
             time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))[1]
           else
-            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],a_omega=a_omega[d3]))[1]
+            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))[1]
           FNrate[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
           FPrate[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
           MSTE[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
