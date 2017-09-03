@@ -5,70 +5,75 @@ if ( !require(glmnet) )
   library(glmnet)
 }
 
-if ( file.exists("~/project/EMSHS/RG/Ridge.R") )
-  source("~/project/EMSHS/RG/Ridge.R")
+if ( file.exists("~/project/EMSHS/Ridge/Ridge.R") )
+  source("~/project/EMSHS/Ridge/Ridge.R")
+if ( file.exists("~Ridge/Ridge.R") )
+  source("Ridge/Ridge.R")
 
 
-SimLasso <- function(r,s,head,offset=0)
+SimLasso <- function(r,s,datapath,batch=0)
 {
-  M = length(s)
-  FNtune = matrix(0,M,r)
-  FPtune = matrix(0,M,r)
-  MSPEtune = matrix(0,M,r)
-  FN = rep(0,r)
-  FP = rep(0,r)
-  MSPE = rep(0,r)
+  D1 = length(s)
+
+  FNrate = matrix(0,D1,r)
+  FPrate = matrix(0,D1,r)
+  MSTE = matrix(0,D1,r)
+  MSPE = matrix(0,D1,r)
+  time = matrix(0,D1,r)
   
-  before = proc.time()
   for ( i in 1:r )
   {
-    load(sprintf("%s/dataset%03d",head,offset+i))
-    fit = glmnet(dataset$X,dataset$y,intercept=FALSE,lambda=s)
-    beta = matrix(coef(fit)[-1,],dataset$p)
-    FNtune[,i] = apply(beta[1:dataset$q,]==0,2,sum)
-    FPtune[,i] = apply(beta[(dataset$q+1):dataset$p,]!=0,2,sum)
-    yhattune = dataset$Xtune %*% beta
-    MSPEtune[,i] = apply((yhattune-as.vector(dataset$ytune))^2,2,mean)
-    j = which.min(MSPEtune[,i])
-    FN[i] = FNtune[j,i]
-    FP[i] = FPtune[j,i]
-    yhat = dataset$Xtest %*% beta[,j]
-    MSPE[i] = mean((yhat-as.vector(dataset$ytest))^2)
+    print(i)
+    load(sprintf("%s/data%03d",datapath,batch+i))
+
+    for ( d1 in 1:D1 )
+    {
+      time[d1,i] = system.time(fit <- glmnet(data$X,data$y,intercept=FALSE,lambda=s[d1]))[1]
+      beta = coef(fit)[-1,]
+      FNrate[,i] = mean(beta[1:data$q]==0)
+      FPrate[,i] = mean(beta[(data$q+1):data$p]!=0)
+      yhattune = data$Xtune %*% beta
+      MSTE[,i] = mean((yhattune-data$ytune)^2)
+      yhattest = data$Xtest %*% beta
+      MSPE[,i] = mean((yhattest-data$ytest)^2)
+    }
   }
-  after = proc.time() - before
-  list(r=r,s=s,pred=T,vs=T,FNtune=FNtune,FPtune=FPtune,MSPEtune=MSPEtune,FN=FN,FP=FP,MSPE=MSPE,time=after[1])
+  list(r=r,batch=batch,s=s,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
 }
 
 
-
-SimALasso <- function(r,s1,s2,head,offset=0)
+SimALasso <- function(r,s1,s2,datapath,batch=0)
 {
-  M = length(s1)
-  FNtune = matrix(0,M,r)
-  FPtune = matrix(0,M,r)
-  MSPEtune = matrix(0,M,r)
-  FN = rep(0,r)
-  FP = rep(0,r)
-  MSPE = rep(0,r)
+  D1 = length(s1)
+
+  FNrate = matrix(0,D1,r)
+  FPrate = matrix(0,D1,r)
+  MSTE = matrix(0,D1,r)
+  MSPE = matrix(0,D1,r)
+  time = matrix(0,D1,r)
   
-  before = proc.time()
   for ( i in 1:r )
   {
-    load(sprintf("%s/dataset%03d",head,offset+i))
-    fit = Ridge(dataset$X,dataset$y,s2)
+    print(i)
+    load(sprintf("%s/data%03d",datapath,batch+i))
+
+    fit = Ridge(data$X,data$y,s2)
     w = 1/abs(fit)
-    fit = glmnet(dataset$X,dataset$y,intercept=FALSE,penalty.factor=w,lambda=s1)
-    beta = matrix(coef(fit)[-1,],dataset$p)
-    FNtune[,i] = apply(beta[1:dataset$q,]==0,2,sum)
-    FPtune[,i] = apply(beta[(dataset$q+1):dataset$p,]!=0,2,sum)
-    yhattune = dataset$Xtune %*% beta
-    MSPEtune[,i] = apply((yhattune-as.vector(dataset$ytune))^2,2,mean)
-    j = which.min(MSPEtune[,i])
-    FN[i] = FNtune[j,i]
-    FP[i] = FPtune[j,i]
-    yhat = dataset$Xtest %*% beta[,j]
-    MSPE[i] = mean((yhat-as.vector(dataset$ytest))^2)
+
+    for ( d1 in 1:D1 )
+    {
+      time[d1,i] = system.time(fit <- glmnet(data$X,data$y,intercept=FALSE,penalty.factor=w,lambda=s1[d1]))[1]
+      beta = coef(fit)[-1,]
+      FNrate[,i] = mean(beta[1:data$q]==0)
+      FPrate[,i] = mean(beta[(data$q+1):data$p]!=0)
+      yhattune = data$Xtune %*% beta
+      MSTE[,i] = mean((yhattune-data$ytune)^2)
+      yhattest = data$Xtest %*% beta
+      MSPE[,i] = mean((yhattest-data$ytest)^2)
+    }
   }
-  after = proc.time() - before
-  list(r=r,s1=s1,s2=s2,pred=T,vs=T,FNtune=FNtune,FPtune=FPtune,MSPEtune=MSPEtune,FN=FN,FP=FP,MSPE=MSPE,time=after[1])
+  list(r=r,batch=batch,s1=s1,s2=s2,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
 }
+
+
+

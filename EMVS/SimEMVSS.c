@@ -22,11 +22,11 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 10000;
 	R = 100;
-	batch_size = 5;
+	batch_size = 2;
 
-	strcpy(method,"EMSHS");
+	strcpy(method,"EMVSS");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -43,9 +43,9 @@ int main()
 		where = LPC;
 		strcpy(master,"/home/changgee/project/EMSHS");
 	}
-	sprintf(home,"%s/EMSH",master);
+	sprintf(home,"%s/EMVS",master);
 	sprintf(script,"%s/Sim%d",home,p);
-	strcpy(src,"SimEMSHS.R");
+	strcpy(src,"SimEMVSS.R");
 
 	sprintf(data,"%s/datasets",master);
 
@@ -104,11 +104,11 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("mu = 18:22/3\n",f);
-			fputs("nu = 1:5/10\n",f);
-			fputs("c = 0:4\n",f);
+			fputs("v0 = 1:20/100\n",f);
+			fputs("v1 = 1000\n",f);
+			fputs("eta = 0:1\n",f);
 
-			sprintf(line,"%s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"%s = SimEMVSS(r,v0,v1,eta,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
