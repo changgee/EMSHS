@@ -22,8 +22,10 @@ int main()
 
 	p = 1000;
 	grp = 50;
+//	p = 10000;
+//	grp = 300;
 	R = 100;
-	batch_size = 10;
+	batch_size = 5;
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -62,7 +64,7 @@ int main()
 
 		for ( batch=0 ; batch<R ; batch+=batch_size )
 		{
-			sprintf(fname,"%s/%s%d_%d_%d",script,acronym,p,ds+1,batch+1);
+			sprintf(fname,"%s/%s%d_%d_%03d",script,acronym,p,ds+1,batch+1);
 
 			if ( where == Emory )
 				sprintf(line,"qsub -q fruit.q %s\n",fname);
