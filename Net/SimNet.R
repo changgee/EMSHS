@@ -4,52 +4,57 @@ if ( !require(glmgraph) )
   library(glmgraph)
 }
 
-SimNet <- function(r,mu,nu,a_omega,datapath,batch=0)
+SimNet <- function(r,lam1,lam2,datapath,batch=0)
 {
-  D1 = length(mu)
-  D2 = length(nu)
-  D3 = length(a_omega)
-  
-  FNrate = array(0,c(D1,D2,D3,r))
-  FPrate = array(0,c(D1,D2,D3,r))
-  MSTE = array(0,c(D1,D2,D3,r))
-  MSPE = array(0,c(D1,D2,D3,r))
-  omegaii = array(0,c(D1,D2,D3,r))
-  omegaiu = array(0,c(D1,D2,D3,r))
-  omegauu = array(0,c(D1,D2,D3,r))
-  time = array(0,c(D1,D2,D3,r))
+  D1 = length(lam1)
+  D2 = length(lam2)
+
+  FNrate = array(0,c(D1,D2,r))
+  FPrate = array(0,c(D1,D2,r))
+  MSTE = array(0,c(D1,D2,r))
+  MSPE = array(0,c(D1,D2,r))
+  time = array(0,c(D1,D2,r))
   
   for ( i in 1:r )
   {
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
-    i1 = data$E[,1]<=data$q
-    i2 = data$E[,2]<=data$q
-    ii = i1 & i2
-    iu = xor(i1,i2)
-    uu = !i1 & !i2
     
+    L = LapMat(data$E,data$p)
+
     for ( d1 in 1:D1 )
       for ( d2 in 1:D2 )
-        for ( d3 in 1:D3 )
-        {
-          if ( a_omega[d3]>0 )
-            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))[1]
-          else
-            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))[1]
-          FNrate[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
-          FPrate[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
-          MSTE[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
-          MSPE[d1,d2,d3,i] = mean((data$ytest-data$Xtest%*%fit$beta[,1])^2)
-          if ( a_omega[d3]>0 )
-          {
-            omegaii[d1,d2,d3,i] = mean(fit$omega[ii,1])
-            omegaiu[d1,d2,d3,i] = mean(fit$omega[iu,1])
-            omegauu[d1,d2,d3,i] = mean(fit$omega[uu,1])
-          }
-        }
+      {
+        time[d1,d2,i] = system.time(fit <- glmgraph(data$X,data$y,L,family="gaussian",penalty="lasso",lambda1=lam1[d1],lambda2=lam2[d2]))[1]
+
+        beta = as.vector(fit$betas)
+        FNrate[d1,d2,i] = mean(beta[1:data$q]==0)
+        FPrate[d1,d2,i] = mean(beta[(data$q+1):data$p]!=0)
+        MSTE[d1,d2,i] = mean((data$ytune-data$Xtune%*%beta)^2)
+        MSPE[d1,d2,i] = mean((data$ytest-data$Xtest%*%beta)^2)
+      }
   }  
   
-  list(r=r,batch=batch,mu=mu,nu=nu,a_omega=a_omega,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,omegaii=omegaii,omegaiu=omegaiu,omegauu=omegauu,time=time)
+  list(r=r,batch=batch,lam1=lam1,lam2=lam2,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
 }
 
+
+LapMat <- function(E,p)
+{
+  L = matrix(0,p,p)
+  e = nrow(E)
+  for ( i in 1:e )
+  {
+    L[E[i,1],E[i,1]] = L[E[i,1],E[i,1]] + 1
+    L[E[i,1],E[i,2]] = -1
+  }
+  for ( i in 1:p )
+  {
+    if ( L[i,i] == 0 )
+      next
+    d = sqrt(L[i,i])
+    L[,i] = L[,i]/d
+    L[i,] = L[i,]/d
+  }
+  L
+}
