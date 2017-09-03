@@ -4,7 +4,44 @@ if ( !require(glmgraph) )
   library(glmgraph)
 }
 
-SimNet <- function(r,lam1,lam2,datapath,batch=0)
+# Pan et al (2010)
+SimNet2 <- function(r,lam1,lam2,datapath,batch=0)
+{
+  D1 = length(lam1)
+  D2 = length(lam2)
+
+  FNrate = array(0,c(D1,D2,r))
+  FPrate = array(0,c(D1,D2,r))
+  MSTE = array(0,c(D1,D2,r))
+  MSPE = array(0,c(D1,D2,r))
+  time = array(0,c(D1,D2,r))
+  
+  for ( i in 1:r )
+  {
+    print(i)
+    load(sprintf("%s/data%03d",datapath,batch+i))
+    
+    L = LapMat(data$E,data$p)
+
+    for ( d1 in 1:D1 )
+      for ( d2 in 1:D2 )
+      {
+        time[d1,d2,i] = system.time(fit <- glmgraph(data$X,data$y,L,family="gaussian",penalty="lasso",lambda1=lam1[d1],lambda2=lam2[d2]))[1]
+
+        beta = as.vector(fit$betas)
+        FNrate[d1,d2,i] = mean(beta[1:data$q]==0)
+        FPrate[d1,d2,i] = mean(beta[(data$q+1):data$p]!=0)
+        MSTE[d1,d2,i] = mean((data$ytune-data$Xtune%*%beta)^2)
+        MSPE[d1,d2,i] = mean((data$ytest-data$Xtest%*%beta)^2)
+      }
+  }  
+  
+  list(r=r,batch=batch,lam1=lam1,lam2=lam2,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
+}
+
+
+# Li and Li (2008)
+SimNet1 <- function(r,lam1,lam2,datapath,batch=0)
 {
   D1 = length(lam1)
   D2 = length(lam2)
