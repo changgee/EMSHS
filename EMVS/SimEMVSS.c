@@ -165,12 +165,6 @@ int main()
 		fputs(line,g);
 		sprintf(line,"    tmp$MSPE = abind(tmp$MSPE,%s$MSPE)\n",vname);
 		fputs(line,g);
-		sprintf(line,"    tmp$omegaii = abind(tmp$omegaii,%s$omegaii)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$omegaiu = abind(tmp$omegaiu,%s$omegaiu)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$omegauu = abind(tmp$omegauu,%s$omegauu)\n",vname);
-		fputs(line,g);
 		sprintf(line,"    tmp$time = abind(tmp$time,%s$time)\n",vname);
 		fputs(line,g);
 		fputs("  }\n",g);

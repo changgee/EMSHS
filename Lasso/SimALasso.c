@@ -24,9 +24,9 @@ int main()
 
 	p = 10000;
 	R = 100;
-	batch_size = 5;
+	batch_size = 20;
 
-	strcpy(method,"Net2");
+	strcpy(method,"AL");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -43,9 +43,9 @@ int main()
 		where = LPC;
 		strcpy(master,"/home/changgee/project/EMSHS");
 	}
-	sprintf(home,"%s/Net",master);
+	sprintf(home,"%s/Lasso",master);
 	sprintf(script,"%s/Sim%d",home,p);
-	strcpy(src,"SimNet.R");
+	strcpy(src,"SimLasso.R");
 
 	sprintf(data,"%s/datasets",master);
 
@@ -104,7 +104,10 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			sprintf(line,"%s = SimNet2(r,datapath,batch=%d)\n",vname,batch);
+			fputs("s1 = exp(seq(log(100),log(1),length.out=20))\n",f);
+			fputs("s2 = 0.01\n",f);
+
+			sprintf(line,"%s = SimALasso(r,s1,s2,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
@@ -152,10 +155,6 @@ int main()
 		fputs("  else\n",g);
 		fputs("  {\n",g);
 		sprintf(line,"    tmp$r = tmp$r + %s$r\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$nsol = c(tmp$nsol,%s$nsol)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$lam = abind(tmp$lam,%s$lam)\n",vname);
 		fputs(line,g);
 		sprintf(line,"    tmp$FNrate = abind(tmp$FNrate,%s$FNrate)\n",vname);
 		fputs(line,g);
