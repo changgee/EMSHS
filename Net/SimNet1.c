@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 10000;
 	R = 100;
 	batch_size = 5;
 
@@ -107,7 +107,7 @@ int main()
 			fputs("lam1 = 1:5/5\n",f);
 			fputs("lam2 = 1:5/5\n",f);
 
-			sprintf(line,"%s = SimNet1(r,lam1,lam2,,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"%s = SimNet1(r,lam1,lam2,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
