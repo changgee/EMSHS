@@ -26,7 +26,7 @@ int main()
 	R = 100;
 	batch_size = 5;
 
-	strcpy(method,"EMSHS");
+	strcpy(method,"Net1");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -43,9 +43,9 @@ int main()
 		where = LPC;
 		strcpy(master,"/home/changgee/project/EMSHS");
 	}
-	sprintf(home,"%s/EMSH",master);
+	sprintf(home,"%s/Net",master);
 	sprintf(script,"%s/Sim%d",home,p);
-	strcpy(src,"SimEMSHS.R");
+	strcpy(src,"SimNet.R");
 
 	sprintf(data,"%s/datasets",master);
 
@@ -104,11 +104,10 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("mu = 18:22/3\n",f);
-			fputs("nu = 1:5/10\n",f);
-			fputs("c = 0:4\n",f);
+			fputs("lam1 = 1:5/5\n",f);
+			fputs("lam2 = 1:5/5\n",f);
 
-			sprintf(line,"%s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"%s = SimNet1(r,lam1,lam2,,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
