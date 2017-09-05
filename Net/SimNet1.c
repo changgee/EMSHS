@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 10000;
 	R = 100;
 	batch_size = 5;
 
@@ -104,10 +104,7 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("lam1 = 1:5/5\n",f);
-			fputs("lam2 = 1:5/5\n",f);
-
-			sprintf(line,"%s = SimNet1(r,lam1,lam2,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"%s = SimNet1(r,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
@@ -155,6 +152,10 @@ int main()
 		fputs("  else\n",g);
 		fputs("  {\n",g);
 		sprintf(line,"    tmp$r = tmp$r + %s$r\n",vname);
+		fputs(line,g);
+		sprintf(line,"    tmp$lam1 = abind(tmp$lam1,%s$lam1)\n",vname);
+		fputs(line,g);
+		sprintf(line,"    tmp$lam2 = abind(tmp$lam2,%s$lam2)\n",vname);
 		fputs(line,g);
 		sprintf(line,"    tmp$FNrate = abind(tmp$FNrate,%s$FNrate)\n",vname);
 		fputs(line,g);
