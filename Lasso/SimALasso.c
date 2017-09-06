@@ -24,7 +24,7 @@ int main()
 
 	p = 10000;
 	R = 100;
-	batch_size = 20;
+	batch_size = 10;
 
 	strcpy(method,"AL");
 
@@ -104,8 +104,8 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("s1 = exp(seq(log(100),log(1),length.out=20))\n",f);
-			fputs("s2 = 0.01\n",f);
+			fputs("s1 = exp(seq(log(0.02),log(15),length.out=25))\n",f);
+			fputs("s2 = 0.5\n",f);
 
 			sprintf(line,"%s = SimALasso(r,s1,s2,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
