@@ -41,6 +41,7 @@ SimEMVSS <- function(r,v0,v1,eta=0,datapath,batch=0)
         yhattest = data$Xtest %*% beta
         MSPE[d1,d2,i] = mean((data$ytest-yhattest)^2)
       }
+    }
   }
   
   list(r=r,batch=batch,v0=v0,v1=v1,eta=eta,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
