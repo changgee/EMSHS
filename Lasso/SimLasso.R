@@ -30,12 +30,12 @@ SimLasso <- function(r,s,datapath,batch=0)
     {
       time[d1,i] = system.time(fit <- glmnet(data$X,data$y,intercept=FALSE,lambda=s[d1]))[1]
       beta = coef(fit)[-1,]
-      FNrate[,i] = mean(beta[1:data$q]==0)
-      FPrate[,i] = mean(beta[(data$q+1):data$p]!=0)
+      FNrate[d1,i] = mean(beta[1:data$q]==0)
+      FPrate[d1,i] = mean(beta[(data$q+1):data$p]!=0)
       yhattune = data$Xtune %*% beta
-      MSTE[,i] = mean((yhattune-data$ytune)^2)
+      MSTE[d1,i] = mean((yhattune-data$ytune)^2)
       yhattest = data$Xtest %*% beta
-      MSPE[,i] = mean((yhattest-data$ytest)^2)
+      MSPE[d1,i] = mean((yhattest-data$ytest)^2)
     }
   }
   list(r=r,batch=batch,s=s,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
@@ -45,31 +45,35 @@ SimLasso <- function(r,s,datapath,batch=0)
 SimALasso <- function(r,s1,s2,datapath,batch=0)
 {
   D1 = length(s1)
+  D2 = length(s2)
 
-  FNrate = matrix(0,D1,r)
-  FPrate = matrix(0,D1,r)
-  MSTE = matrix(0,D1,r)
-  MSPE = matrix(0,D1,r)
-  time = matrix(0,D1,r)
+  FNrate = array(0,c(D1,D2,r))
+  FPrate = array(0,c(D1,D2,r))
+  MSTE = array(0,c(D1,D2,r))
+  MSPE = array(0,c(D1,D2,r))
+  time = array(0,c(D1,D2,r))
   
   for ( i in 1:r )
   {
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
 
-    fit = Ridge(data$X,data$y,s2)
-    w = 1/abs(fit)
-
-    for ( d1 in 1:D1 )
+    for ( d2 in 1:D2 )
     {
-      time[d1,i] = system.time(fit <- glmnet(data$X,data$y,intercept=FALSE,penalty.factor=w,lambda=s1[d1]))[1]
-      beta = coef(fit)[-1,]
-      FNrate[,i] = mean(beta[1:data$q]==0)
-      FPrate[,i] = mean(beta[(data$q+1):data$p]!=0)
-      yhattune = data$Xtune %*% beta
-      MSTE[,i] = mean((yhattune-data$ytune)^2)
-      yhattest = data$Xtest %*% beta
-      MSPE[,i] = mean((yhattest-data$ytest)^2)
+      t2 = system.time(fit <- Ridge(data$X,data$y,s2[d2]))[1]
+      w = 1/abs(fit)
+
+      for ( d1 in 1:D1 )
+      {
+        time[d1,d2,i] = t2 + system.time(fit <- glmnet(data$X,data$y,intercept=FALSE,penalty.factor=w,lambda=s1[d1]))[1]
+        beta = coef(fit)[-1,]
+        FNrate[d1,d2,i] = mean(beta[1:data$q]==0)
+        FPrate[d1,d2,i] = mean(beta[(data$q+1):data$p]!=0)
+        yhattune = data$Xtune %*% beta
+        MSTE[d1,d2,i] = mean((yhattune-data$ytune)^2)
+        yhattest = data$Xtest %*% beta
+        MSPE[d1,d2,i] = mean((yhattest-data$ytest)^2)
+      }
     }
   }
   list(r=r,batch=batch,s1=s1,s2=s2,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
