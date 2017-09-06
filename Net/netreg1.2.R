@@ -137,7 +137,7 @@ if (dGamma1[j1hat]<=dGamma2[j2hat]) {
    dGamma<-dGamma2[j2hat]
    shat<-0-epsilon
    }
-
+print(dGamma)
 if (dGamma < 0-ksi){
    b1<-b0
    b1[jhat]<-b1[jhat] + shat
