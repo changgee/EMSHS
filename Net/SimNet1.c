@@ -22,9 +22,9 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 1000;
 	R = 100;
-	batch_size = 5;
+	batch_size = 2;
 
 	strcpy(method,"Net1");
 

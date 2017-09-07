@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 1000;
 	R = 100;
 	batch_size = 10;
 
