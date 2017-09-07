@@ -21,7 +21,8 @@ DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu
   for ( i in 1:R )
   {
     fname = sprintf("%s/data%03d",head,batch+i)
-    DG(seed+batch+i,p,g,gsm,ntrain,ntune,ntest,sigma2,edii,ediu,eduu,Gmode,Gthres,fname)
+    if ( !file.exists(fname) )
+      DG(seed+batch+i,p,g,gsm,ntrain,ntune,ntest,sigma2,edii,ediu,eduu,Gmode,Gthres,fname)
   }
 }
 

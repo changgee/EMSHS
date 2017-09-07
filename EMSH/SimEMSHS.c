@@ -24,7 +24,7 @@ int main()
 
 	p = 1000;
 	R = 100;
-	batch_size = 5;
+	batch_size = 2;
 
 	strcpy(method,"EMSHS");
 
@@ -105,14 +105,18 @@ int main()
 			fputs(line,f);
 
 			fputs("mu = 11:15/3\n",f);
-			fputs("nu = 1:5/5\n",f);
-			fputs("c = 0:4*2\n",f);
+			fputs("nu = 1:5/20\n",f);
+			fputs("c = c(0,4)\n",f);
 
-			sprintf(line,"%s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
+			fputs(line,f);
+			fputs("{\n",f);
+			sprintf(line,"  %s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
-			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
+			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
 			fputs(line,f);
+			fputs("}\n",f);
 			fclose(f);
 		}
 		fclose(g);
