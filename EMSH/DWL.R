@@ -242,8 +242,8 @@ DWL.getXXa <- function(A)
       {
         oldmax = DWL.XxMax
         oldXx = DWL.Xx
-        DWL.XxMax <<- min(oldmax*2,p)
-        DWL.Xx <<- matrix(0,p,DWL.XxMax)
+        DWL.XxMax <<- min(oldmax*2,DWL.p)
+        DWL.Xx <<- matrix(0,DWL.p,DWL.XxMax)
         DWL.Xx[0,1:oldmax] <<- oldXx
       }
       DWL.XxIdx[k] <<- DWL.XxCnt
@@ -256,5 +256,5 @@ DWL.getXXa <- function(A)
 
 DWL.version <- function()
 {
-  print("0.1")
+  print("0.2")
 }
