@@ -20,10 +20,10 @@ int main()
 	FILE *f, *g, *h;
 	int p, grp, R, batch, batch_size, ds, where;
 
-	p = 1000;
-	grp = 30;
-//	p = 10000;
-//	grp = 200;
+//	p = 1000;
+//	grp = 30;
+	p = 10000;
+	grp = 200;
 	R = 100;
 	batch_size = 2;
 
@@ -96,7 +96,7 @@ int main()
 			fputs(line,f);
 			sprintf(line,"R = %d\n",batch_size);
 			fputs(line,f);
-			sprintf(line,"seed = %d\n",(ds+1)*100);
+			sprintf(line,"seed = %d\n",(ds%2+1)*100);
 			fputs(line,f);
 			sprintf(line,"p = %d\n",p);
 			fputs(line,f);

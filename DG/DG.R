@@ -26,7 +26,7 @@ DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu
   }
 }
 
-DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.1,savefile=NULL)
+DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.05,savefile=NULL)
 {
   set.seed(seed)
   
@@ -103,6 +103,15 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.
   Xtest = matrix(rnorm(ntest*p),ntest) %*% t(A)
   ytest = drop(Xtest%*%beta + sqrt(sigma2)*rnorm(ntest))
 
+  if ( realp > p )
+  {
+    beta = c(beta,rep(0,realp-p))
+    X = cbind(X,matrix(rnorm(n*(realp-p)),n))
+    Xtune = cbind(Xtune,matrix(rnorm(n*(realp-p)),n))
+    Xtest = cbind(Xtest,matrix(rnorm(n*(realp-p)),n))
+    p = realp
+  }
+
   if ( Gmode==0 )
     E = E0
   else if ( Gmode==1 )
@@ -124,15 +133,6 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.
   }
   nE = nrow(E)
     
-  if ( realp > p )
-  {
-    beta = c(beta,rep(0,realp-p))
-    X = cbind(X,matrix(rnorm(n*(realp-p)),n))
-    Xtune = cbind(Xtune,matrix(rnorm(n*(realp-p)),n))
-    Xtest = cbind(Xtest,matrix(rnorm(n*(realp-p)),n))
-    p = realp
-  }
-
   data = list(p=p,q=q,g=g,n=n,ntune=ntune,ntest=ntest,sigma2=sigma2,edii=edii,ediu=ediu,eduu=eduu,Gmode=Gmode,Gthres=Gthres)
   data = c(data,list(pathway=pathway,ngene=ngene,pcor=pcor,E0=E0,nE0=nE0,E=E,nE=nE))
   data = c(data,list(beta=beta,X=X,y=y,Xtune=Xtune,ytune=ytune,Xtest=Xtest,ytest=ytest))

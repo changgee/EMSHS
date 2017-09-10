@@ -106,8 +106,8 @@ int main()
 
 			if ( p == 1000 )
 			{
-				fputs("mu = 25:29/6\n",f);
-				fputs("nu = 1:5/15\n",f);
+				fputs("mu = 10:16/3+0.1\n",f);
+				fputs("nu = c(1:3*0.05,0:5/4+0.2)\n",f);
 			}
 			else
 			{

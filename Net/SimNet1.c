@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 10000;
 	R = 100;
 	batch_size = 2;
 
@@ -104,11 +104,15 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			sprintf(line,"%s = SimNet1(r,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
+			fputs(line,f);
+			fputs("{\n",f);
+			sprintf(line,"  %s = SimNet1(r,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
-			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
+			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
 			fputs(line,f);
+			fputs("}\n",f);
 			fclose(f);
 		}
 		fclose(g);
