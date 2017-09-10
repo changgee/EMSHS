@@ -104,8 +104,16 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("mu = 11:15/3\n",f);
-			fputs("nu = 1:5/20\n",f);
+			if ( p == 1000 )
+			{
+				fputs("mu = 25:29/6\n",f);
+				fputs("nu = 1:5/15\n",f);
+			}
+			else
+			{
+				fputs("mu = 9:13/2\n",f);
+				fputs("nu = 1:5/15\n",f);
+			}
 			fputs("c = c(0,4)\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
