@@ -16,7 +16,7 @@
 # Gthres: the threshold when Gmode=2
 # savefile: file to save data
 
-DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,ediu,Gmode,batch=0)
+DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,ediu=0,Gmode=0,batch=0)
 {
   for ( i in 1:R )
   {
