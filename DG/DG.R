@@ -50,14 +50,14 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.4,ediu=0.05,eduu=0.
     for ( j in mbr )
       for ( k in mbr )
       {
-        if ( j>=k )
-          next
-        if ( k<=q )
+        if ( j<=k )
+          break
+        if ( j<=q )
         {
-          if ( j+1==k | runif(1) < edii )
+          if ( runif(1) < edii | k+1==j )
             Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))
         }
-        else if ( j<=q )
+        else if ( k<=q )
         {
           if ( runif(1) < ediu )
             Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))

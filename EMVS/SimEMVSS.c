@@ -104,7 +104,7 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("v0 = exp(seq(log(0.002),log(0.2),length.out=10))\n",f);
+			fputs("v0 = exp(seq(log(0.0005),log(0.1),length.out=10))\n",f);
 			fputs("v1 = 1000\n",f);
 			fputs("eta = 0:2/2\n",f);
 
