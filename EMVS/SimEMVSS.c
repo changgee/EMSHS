@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 1000;
 	R = 100;
 	batch_size = 2;
 
@@ -104,9 +104,9 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("v0 = 1:20/100\n",f);
+			fputs("v0 = exp(seq(log(0.002),log(0.2),length.out=10))\n",f);
 			fputs("v1 = 1000\n",f);
-			fputs("eta = 0:1\n",f);
+			fputs("eta = 0:2/2\n",f);
 
 			sprintf(line,"%s = SimEMVSS(r,v0,v1,eta,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);

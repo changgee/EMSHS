@@ -20,10 +20,10 @@ int main()
 	FILE *f, *g, *h;
 	int p, grp, R, batch, batch_size, ds, where;
 
-//	p = 1000;
-//	grp = 30;
-	p = 10000;
-	grp = 200;
+	p = 1000;
+	grp = 30;
+//	p = 10000;
+//	grp = 200;
 	R = 100;
 	batch_size = 2;
 
@@ -103,7 +103,7 @@ int main()
 			sprintf(line,"g = %d\n",grp);
 			fputs(line,f);
 			fputs("gsm = 30\n",f);
-			fputs("n = 80\n",f);
+			fputs("n = 100\n",f);
 			fputs("sigma2 = 2\n",f);
 			sprintf(line,"batch = %d\n",batch);
 			fputs(line,f);

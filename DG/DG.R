@@ -16,17 +16,17 @@
 # Gthres: the threshold when Gmode=2
 # savefile: file to save data
 
-DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.1,batch=0)
+DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,batch=0)
 {
   for ( i in 1:R )
   {
     fname = sprintf("%s/data%03d",head,batch+i)
     if ( !file.exists(fname) )
-      DG(seed+batch+i,p,g,gsm,ntrain,ntune,ntest,sigma2,edii,ediu,eduu,Gmode,Gthres,fname)
+      DG(seed+batch+i,p,g,gsm,ntrain,ntune,ntest,sigma2,savefile=fname)
   }
 }
 
-DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.2,Gmode=0,Gthres=0.05,savefile=NULL)
+DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.4,ediu=0.05,eduu=0.1,Gmode=0,Gthres=0.05,savefile=NULL)
 {
   set.seed(seed)
   
@@ -54,7 +54,7 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.
           next
         if ( k<=q )
         {
-          if ( runif(1) < edii )
+          if ( j+1==k | runif(1) < edii )
             Eg = rbind(Eg,matrix(c(j,k,k,j),2,2))
         }
         else if ( j<=q )
@@ -92,7 +92,7 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.5,ediu=0.05,eduu=0.
   dA = apply(A^2,1,sum)
   A = A / sqrt(dA)
 
-  beta = c(runif(q,1,3),rep(0,p-q))
+  beta = c(runif(q,0.5,2),rep(0,p-q))
 
   X = matrix(rnorm(n*p),n) %*% t(A)
   y = drop(X%*%beta + sqrt(sigma2)*rnorm(n))
