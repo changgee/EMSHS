@@ -26,7 +26,7 @@ DG_batch <- function(R,head,seed,p,g,gsm,ntrain,ntune,ntest,sigma2,ediu=0,Gmode=
   }
 }
 
-DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.4,ediu=0.05,eduu=0.1,Gmode=0,Gthres=0.05,savefile=NULL)
+DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.4,ediu=0.05,eduu=0.1,Gmode=0,Gthres=0.07,savefile=NULL)
 {
   set.seed(seed)
   
