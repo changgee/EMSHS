@@ -3,7 +3,7 @@ if ( file.exists("~/project/EMSHS/EMSH/EMSHS.R") )
 if ( file.exists("EMSH/EMSHS.R") )
   source("EMSH/EMSHS.R")
 
-DataEMSHS <- function(y,X,mu,nu,w=NULL,E=NULL,a_omega=NULL,b_omega=NULL,fold,k)
+DataEMSHS <- function(y,X,mu,nu,E=NULL,w=NULL,a_omega=NULL,b_omega=NULL,fold,k)
 {
   r = ncol(fold)
   K = length(k)
