@@ -40,7 +40,7 @@ DataNet1 <- function(y,X,E,lam1,lam2,fold,k)
         nbeta = ncol(fit$betas[[d2]])
         beta[,j,1:nbeta,d2,i] = fit$betas[[d2]][-1,]
       
-        L[j,,d2,i] = apply(beta[,j,,d2,i]!=0,2,sum)
+#        L[j,,d2,i] = apply(beta[,j,,d2,i]!=0,2,sum)
         yhat = X[ik,] %*% beta[,j,,d2,i]
         SSPECV[,d2,i] = SSPECV[,d2,i] + apply((y[ik]-yhat)^2,2,sum)
       }
