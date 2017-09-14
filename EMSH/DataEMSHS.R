@@ -3,22 +3,28 @@ if ( file.exists("~/project/EMSHS/EMSH/EMSHS.R") )
 if ( file.exists("EMSH/EMSHS.R") )
   source("EMSH/EMSHS.R")
 
-DataEMSHS_CV <- function(y,X,mu,nu,w=NULL,E=NULL,a_omega=NULL,b_omega=NULL,fold,k)
+DataEMSHS <- function(y,X,mu,nu,w=NULL,E=NULL,a_omega=NULL,b_omega=NULL,fold,k)
 {
   r = ncol(fold)
   K = length(k)
   n = nrow(X)
   p = ncol(X)
   
-  M = length(mu)
-  SSPECV = matrix(0,M,r)
-  beta = array(0,c(p,K,M,r))
-  lambda = array(0,c(p,K,M,r))
-  L = array(0,c(K,M,r))
-  
   if ( is.null(w) )
     w = rep(1,n)
 
+  if ( is.null(a_omega) )
+    a_omega = 0
+
+  D1 = length(mu)
+  D2 = length(nu)
+  D3 = length(a_omega)
+
+  SSPECV = array(0,c(D1,D2,D3,r))
+  beta = array(0,c(p,K,D1,D2,D3,r))
+  lambda = array(0,c(p,K,D1,D2,D3,r))
+  L = array(0,c(K,D1,D2,D3,r))
+  
   before = proc.time()
   
   for ( i in 1:r )
@@ -27,19 +33,21 @@ DataEMSHS_CV <- function(y,X,mu,nu,w=NULL,E=NULL,a_omega=NULL,b_omega=NULL,fold,
     {
       ik = which(fold[,i]==k[j])
       
-      for ( m in 1:M )
-      {
-        if ( is.null(E) )
-          fit = EMSHS(y[-ik],X[-ik,],mu[m],nu,w=w[-ik],descent="diagonal") 
-        else
-          fit = EMSHS(y[-ik],X[-ik,],mu[m],nu,E,w=w[-ik],a_omega=a_omega,b_omega=b_omega,descent="diagonal")
-        beta[,j,m,i] = fit$beta
-        lambda[,j,m,i] = fit$lambda
-      }
+      for ( d1 in 1:D1 )
+        for ( d2 in 1:D2 )
+          for ( d3 in 1:D3 )
+          {
+            if ( is.null(E) | a_omega[d3] == 0 )
+              fit = EMSHS(y[-ik],X[-ik,],mu[d1],nu[d2],w=w[-ik],descent="diagonal") 
+            else
+              fit = EMSHS(y[-ik],X[-ik,],mu[d1],nu[d2],E,w=w[-ik],a_omega=a_omega[d3],b_omega=b_omega,descent="diagonal")
+            beta[,j,d1,d2,d3,i] = fit$beta
+            lambda[,j,d1,d2,d3,i] = fit$lambda
+            yhat = X[ik,] %*% beta[,j,d1,d2,d3,i]
+            SSPECV[d1,d2,d3,i] = SSPECV[d1,d2,d3,i] + sum((y[ik]-yhat)^2)
+          }
       
-      L[j,,i] = apply(beta[,j,,i]!=0,2,sum)
-      yhat = X[ik,] %*% beta[,j,,i]
-      SSPECV[,i] = SSPECV[,i] + apply((y[ik]-yhat)^2,2,sum)
+      L[j,,,,i] = apply(beta[,j,,,,i]!=0,2:4,sum)
     }
   }
   
