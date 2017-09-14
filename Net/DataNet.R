@@ -19,7 +19,7 @@ DataNet1 <- function(y,X,E,lam1,fold,k)
   D1 = length(lam1)
   D2 = 9
   SSPECV = array(0,c(D1,D2,r))
-  beta = array(0,c(p+1,K,D1,D2,r))
+  beta = array(0,c(p,K,D1,D2,r))
   L = array(0,c(K,D1,D2,r))
   
   LM = LapMat(E,p)
@@ -33,13 +33,15 @@ DataNet1 <- function(y,X,E,lam1,fold,k)
       ik = which(fold[,i]==k[j])
       
       fit = glmgraph(X[-ik,],y[-ik],LM,family="gaussian",penalty="lasso",lambda1=lam1)
-
+      beta[1,j,,,i] = mean(y[-ik])
+      
       for ( d2 in 1:D2 )
       {
-        beta[-1,j,,d2,i] = fit$betas[[d2]]
+        nbeta = ncol(fit$betas[[d2]])
+        beta[,j,1:nbeta,d2,i] = fit$betas[[d2]][-1,]
       
-        L[j,,d2,i] = apply(beta[-1,j,,d2,i]!=0,2,sum)
-        yhat = cbind(1,X[ik,]) %*% beta[,j,,d2,i]
+        L[j,,d2,i] = apply(beta[,j,,d2,i]!=0,2,sum)
+        yhat = X[ik,] %*% beta[,j,,d2,i]
         SSPECV[,d2,i] = SSPECV[,d2,i] + apply((y[ik]-yhat)^2,2,sum)
       }
     }
