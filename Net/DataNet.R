@@ -9,7 +9,7 @@ if ( file.exists("~/project/EMSHS/Net/netreg1.2.R") )
 if ( file.exists("Net/netreg1.2.R") )
   source("Net/netreg1.2.R")
 
-DataNet1 <- function(y,X,E,lam1,fold,k)
+DataNet1 <- function(y,X,E,lam1,lam2,fold,k)
 {
   r = ncol(fold)
   K = length(k)
@@ -17,7 +17,7 @@ DataNet1 <- function(y,X,E,lam1,fold,k)
   p = ncol(X)
   
   D1 = length(lam1)
-  D2 = 9
+  D2 = length(lam2)
   SSPECV = array(0,c(D1,D2,r))
   beta = array(0,c(p,K,D1,D2,r))
   L = array(0,c(K,D1,D2,r))
@@ -32,7 +32,7 @@ DataNet1 <- function(y,X,E,lam1,fold,k)
     {
       ik = which(fold[,i]==k[j])
       
-      fit = glmgraph(X[-ik,],y[-ik],LM,family="gaussian",penalty="lasso",lambda1=lam1)
+      fit = glmgraph(X[-ik,],y[-ik],LM,family="gaussian",penalty="lasso",lambda1=lam1,lambda2=lam2)
       beta[1,j,,,i] = mean(y[-ik])
       
       for ( d2 in 1:D2 )
