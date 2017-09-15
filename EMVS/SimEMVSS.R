@@ -19,7 +19,8 @@ SimEMVSS <- function(r,v0,v1,eta=0,datapath,batch=0)
   {
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
-    G = diag(0,data$p)
+    if ( data$p <= 10000 )
+      G = diag(0,data$p)
 
     for ( d2 in 1:D2 )
     {
