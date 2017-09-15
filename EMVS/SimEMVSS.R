@@ -20,16 +20,17 @@ SimEMVSS <- function(r,v0,v1,eta=0,datapath,batch=0)
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
     if ( data$p <= 10000 )
+    {
       G = diag(0,data$p)
+      G[data$E[,1]+(data$E[,2]-1)*data$p] = 1
+    }
 
     for ( d2 in 1:D2 )
     {
-      G[data$E[,1]+(data$E[,2]-1)*data$p] = eta[d2]
-
       if ( eta[d2]==0 )
         time[,d2,i] = system.time(fit <- EMVS(data$y,data$X,v0=v0,v1=v1,type="betabinomial",sigma_init=1,epsilon=1e-3,a=1,b=1))[1]
       else
-        time[,d2,i] = system.time(fit <- EMVS(data$y,data$X,v0=v0,v1=v1,type="MRF",mu=0,Sigma=G,sigma_init=1,epsilon=1e-3,v1_g=v1))[1]
+        time[,d2,i] = system.time(fit <- EMVS(data$y,data$X,v0=v0,v1=v1,type="MRF",mu=0,Sigma=G*eta[d2],sigma_init=1,epsilon=1e-3,v1_g=v1))[1]
 
       beta = t(fit$betas*(fit$p>0.5))
 
