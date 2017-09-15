@@ -47,7 +47,7 @@ DataEMSHS <- function(y,X,mu,nu,E=NULL,w=NULL,a_omega=NULL,b_omega=NULL,fold,k)
             SSPECV[d1,d2,d3,i] = SSPECV[d1,d2,d3,i] + sum((y[ik]-yhat)^2)
           }
       
-      L[j,,,,i] = apply(beta[,j,,,,i]!=0,2:4,sum)
+#      L[j,,,,i] = apply(beta[,j,,,,i]!=0,2:4,sum)
     }
   }
   

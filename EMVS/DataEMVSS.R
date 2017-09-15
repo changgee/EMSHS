@@ -30,9 +30,9 @@ DataEMVSS <- function(y,X,v0,v1,eta=0,E=NULL,fold,k)
       ik = which(fold[,i]==k[j])
 
       if ( !is.null(E) )
-        fit <- EMVS(y[-ik],X[-ik,],v0=v0,v1=v1,type="MRF",mu=0,Sigma=G,sigma_init=1,epsilon=1e-3,v1_g=v1)
+        fit <- EMVS(y[-ik],X[-ik,],v0=v0,v1=v1,type="MRF",mu=0,Sigma=G,sigma_init=1,epsilon=1e-4,v1_g=v1)
       else
-        fit <- EMVS(y[-ik],X[-ik,],v0=v0,v1=v1,type="betabinomial",sigma_init=1,epsilon=1e-3,a=1,b=1)
+        fit <- EMVS(y[-ik],X[-ik,],v0=v0,v1=v1,type="betabinomial",sigma_init=1,epsilon=1e-4,a=1,b=1)
     
       beta[,j,,i] = t(fit$betas*(fit$p>0.5))
       L[j,,i] = apply(fit$p>0.5,1,sum)
