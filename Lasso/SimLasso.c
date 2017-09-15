@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 100000;
 	R = 100;
 	batch_size = 10;
 
@@ -104,7 +104,7 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("s = exp(seq(log(0.001),log(0.5),length.out=25))\n",f);
+			fputs("s = exp(seq(log(0.001),log(0.7),length.out=25))\n",f);
 
 			sprintf(line,"%s = SimLasso(r,s,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);

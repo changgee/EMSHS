@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 100000;
 	R = 100;
 	batch_size = 10;
 
@@ -104,7 +104,7 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("s1 = exp(seq(log(0.5),log(15),length.out=25))\n",f);
+			fputs("s1 = exp(seq(log(2),log(25),length.out=25))\n",f);
 			fputs("s2 = 0.5\n",f);
 
 			sprintf(line,"%s = SimALasso(r,s1,s2,datapath,batch=%d)\n",vname,batch);

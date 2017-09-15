@@ -41,13 +41,11 @@ SimNet2 <- function(r,datapath,batch=0)
 
 
 # Li and Li (2008)
-SimNet1 <- function(r,datapath,batch=0)
+SimNet1 <- function(r,lam1,lam2,datapath,batch=0)
 {
-  D1 = 100
-  D2 = 9
+  D1 = length(lam1)
+  D2 = length(lam2)
 
-  lam1 = array(0,c(D1,D2,r))
-  lam2 = array(0,c(D1,D2,r))
   FNrate = array(1,c(D1,D2,r))
   FPrate = array(1,c(D1,D2,r))
   MSTE = array(Inf,c(D1,D2,r))
@@ -59,15 +57,13 @@ SimNet1 <- function(r,datapath,batch=0)
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
     
-    L = LapMat(data$E,data$p)
-    time[i] = system.time(fit <- glmgraph(data$X,data$y,L,family="gaussian",penalty="lasso",standardize=FALSE))[1]
+    LM = LapMat(data$E,data$p)
+    time[i] = system.time(fit <- glmgraph(data$X,data$y,LM,family="gaussian",penalty="lasso",standardize=FALSE,lambda1=lam1,lambda2=lam2))[1]
 
 
     for ( d2 in 1:D2 )
     {
       nlam1 = length(fit$lambda1s[[d2]])
-      lam1[1:nlam1,d2,i] = fit$lambda1s[[d2]]
-      lam2[1:nlam1,d2,i] = fit$lambda2[d2]
       beta = fit$betas[[d2]]
       FNrate[1:nlam1,d2,i] = apply(beta[1+1:data$q,]==0,2,mean)
       FPrate[1:nlam1,d2,i] = apply(beta[1+(data$q+1):data$p,]!=0,2,mean)
