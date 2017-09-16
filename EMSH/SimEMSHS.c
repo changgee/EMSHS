@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 1000;
 	R = 100;
 	batch_size = 2;
 
@@ -106,15 +106,20 @@ int main()
 
 			if ( p == 1000 )
 			{
-				fputs("mu = 10:15/3+0.1\n",f);
-				fputs("nu = 1:5/2-0.15\n",f);
+				fputs("mu = 0:4*0.4+3.5\n",f);
+				fputs("nu = 0:4*0.5+0.35\n",f);
+			}
+			else if ( p == 10000 )
+			{
+				fputs("mu = 0:4*0.3+5\n",f);
+				fputs("nu = 0:4*0.5+0.35\n",f);
 			}
 			else
 			{
-				fputs("mu = 9:13/2\n",f);
-				fputs("nu = 1:5/15\n",f);
+				fputs("mu = 0:4*0.3+6\n",f);
+				fputs("nu = 0:4*0.1+0.4\n",f);
 			}
-			fputs("c = 0:5*2\n",f);
+			fputs("c = 0:3*2\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);
