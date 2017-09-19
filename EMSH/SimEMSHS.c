@@ -106,20 +106,20 @@ int main()
 
 			if ( p == 1000 )
 			{
-				fputs("mu = 0:4*0.4+3.5\n",f);
-				fputs("nu = 0:4*0.5+0.35\n",f);
+				fputs("mu = 0:6*0.2+3.7\n",f);
+				fputs("nu = 0:9*0.5+5.0\n",f);
 			}
 			else if ( p == 10000 )
 			{
-				fputs("mu = 0:4*0.3+5\n",f);
-				fputs("nu = 0:4*0.5+0.35\n",f);
+				fputs("mu = 0:4*0.3+4.7\n",f);
+				fputs("nu = 0:4*0.6+0.35\n",f);
 			}
 			else
 			{
-				fputs("mu = 0:4*0.3+6\n",f);
-				fputs("nu = 0:4*0.1+0.4\n",f);
+				fputs("mu = 0:4*0.25+6.2\n",f);
+				fputs("nu = 0:4*0.1+0.7\n",f);
 			}
-			fputs("c = 0:3*2\n",f);
+			fputs("c = 0:2*2\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);
