@@ -106,8 +106,31 @@ int main()
 
 			if ( p == 1000 )
 			{
-				fputs("mu = 0:6*0.2+3.7\n",f);
-				fputs("nu = 0:9*0.5+5.0\n",f);
+				if ( s == 0 )
+				{
+					fputs("mu = 0:4*0.1+4.2\n",f);
+					fputs("nu = 0:4*0.5+1\n",f);
+				}
+				else if ( s == 1 )
+				{
+					fputs("mu = 0:4*0.1+4.2\n",f);
+					fputs("nu = 0:4*0.5+1\n",f);
+				}
+				else if ( s == 2 )
+				{
+					fputs("mu = 0:4*0.1+3.9\n",f);
+					fputs("nu = 0:4*0.5+1\n",f);
+				}
+				else if ( s == 3 )
+				{
+					fputs("mu = 0:4*0.1+3.7\n",f);
+					fputs("nu = 0:4*0.5+8\n",f);
+				}
+				else
+				{
+					fputs("mu = 0:4*0.1+4.2\n",f);
+					fputs("nu = 0:4*0.5+0.5\n",f);
+				}
 			}
 			else if ( p == 10000 )
 			{
