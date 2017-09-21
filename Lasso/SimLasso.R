@@ -63,20 +63,21 @@ SimGLasso <- function(r,lam,datapath,batch=0)
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
 
+    colnames(data$X) = 1:1000
     grp = list()
     for ( j in 1:data$g )
-      eval(parse(text=paste("grp = c(grp,list(g",j,"=which(data$pathway[,j])))",sep="")))
+      eval(parse(text=paste("grp = c(grp,list(gr",j,"=which(data$pathway[,j])))",sep="")))
     rem = which(apply(data$pathway,1,sum)==0)
     cnt = 0
     for ( j in rem )
     {
       cnt = cnt + 1
-      eval(parse(text=paste("grp = c(grp,list(g",data$g+cnt,"=j))",sep="")))
+      eval(parse(text=paste("grp = c(grp,list(gr",data$g+cnt,"=j))",sep="")))
     }
 
     for ( d1 in 1:D1 )
     {
-      time[d1,i] = system.time(fit <- grpregOverlap(data$X,data$y,grp,penalty="grLasso",lambda=lam[d2]))[1]
+      time[d1,i] = system.time(fit <- grpregOverlap(data$X,data$y,grp,penalty="grLasso",lambda=lam[d1]))[1]
       beta = coef(fit)[-1]
       FNrate[d1,i] = mean(beta[1:data$q]==0)
       FPrate[d1,i] = mean(beta[(data$q+1):data$p]!=0)
