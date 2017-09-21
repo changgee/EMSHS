@@ -83,7 +83,7 @@ DataALasso <- function(y,X,s1,s2,fold,k)
   list(r=r,p=p,N=N,K=K,fold=fold,k=k,s1=s1,s2=s2,beta=beta,L=L,SSPECV=SSPECV,time=after)
 }
 
-DataLasso <- function(y,X,grp,lam,fold,k)
+DataGLasso <- function(y,X,grp,lam,fold,k)
 {
   r = ncol(fold)
   K = length(k)
