@@ -22,11 +22,11 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 100000;
 	R = 100;
-	batch_size = 2;
+	batch_size = 10;
 
-	strcpy(method,"EMSHS");
+	strcpy(method,"GL");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -43,9 +43,9 @@ int main()
 		where = LPC;
 		strcpy(master,"/home/changgee/project/EMSHS");
 	}
-	sprintf(home,"%s/EMSH",master);
+	sprintf(home,"%s/Lasso",master);
 	sprintf(script,"%s/Sim%d",home,p);
-	strcpy(src,"SimEMSHS.R");
+	strcpy(src,"SimLasso.R");
 
 	sprintf(data,"%s/datasets",master);
 
@@ -104,55 +104,13 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			if ( p == 1000 )
-			{
-				if ( s == 0 )
-				{
-					fputs("mu = 0:4*0.1+4.2\n",f);
-					fputs("nu = 0:4*0.5+1\n",f);
-				}
-				else if ( s == 1 )
-				{
-					fputs("mu = 0:4*0.1+4.2\n",f);
-					fputs("nu = 0:4*0.5+1\n",f);
-				}
-				else if ( s == 2 )
-				{
-					fputs("mu = 0:4*0.1+3.9\n",f);
-					fputs("nu = 0:4*0.5+1\n",f);
-				}
-				else if ( s == 3 )
-				{
-					fputs("mu = 0:4*0.1+3.7\n",f);
-					fputs("nu = 0:4*0.5+8\n",f);
-				}
-				else
-				{
-					fputs("mu = 0:4*0.1+4.2\n",f);
-					fputs("nu = 0:4*0.4+0.7\n",f);
-				}
-			}
-			else if ( p == 10000 )
-			{
-				fputs("mu = 0:4*0.3+4.7\n",f);
-				fputs("nu = 0:4*0.6+0.35\n",f);
-			}
-			else
-			{
-				fputs("mu = 0:4*0.25+6.2\n",f);
-				fputs("nu = 0:4*0.1+0.7\n",f);
-			}
-			fputs("c = 0:2*2\n",f);
+			fputs("lam = exp(seq(log(0.001),log(0.7),length.out=25))\n",f);
 
-			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
-			fputs(line,f);
-			fputs("{\n",f);
-			sprintf(line,"  %s = SimEMSHS(r,mu,nu,c,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"%s = SimGLasso(r,lam,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
-			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
+			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
 			fputs(line,f);
-			fputs("}\n",f);
 			fclose(f);
 		}
 		fclose(g);
@@ -204,12 +162,6 @@ int main()
 		sprintf(line,"    tmp$MSTE = abind(tmp$MSTE,%s$MSTE)\n",vname);
 		fputs(line,g);
 		sprintf(line,"    tmp$MSPE = abind(tmp$MSPE,%s$MSPE)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$omegaii = abind(tmp$omegaii,%s$omegaii)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$omegaiu = abind(tmp$omegaiu,%s$omegaiu)\n",vname);
-		fputs(line,g);
-		sprintf(line,"    tmp$omegauu = abind(tmp$omegauu,%s$omegauu)\n",vname);
 		fputs(line,g);
 		sprintf(line,"    tmp$time = abind(tmp$time,%s$time)\n",vname);
 		fputs(line,g);
