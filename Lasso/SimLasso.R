@@ -87,7 +87,7 @@ SimGLasso <- function(r,lam,datapath,batch=0)
       MSPE[d1,i] = mean((yhattest-data$ytest)^2)
     }
   }
-  list(r=r,batch=batch,s=s,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
+  list(r=r,batch=batch,lam=lam,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,time=time)
 }
 
 
