@@ -22,9 +22,9 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 100000;
+	p = 1000;
 	R = 100;
-	batch_size = 10;
+	batch_size = 1;
 
 	strcpy(method,"GL");
 
@@ -104,7 +104,7 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("lam = exp(seq(log(0.001),log(0.7),length.out=25))\n",f);
+			fputs("lam = exp(seq(log(0.0008),log(0.002),length.out=25))\n",f);
 
 			sprintf(line,"%s = SimGLasso(r,lam,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);

@@ -63,7 +63,7 @@ SimGLasso <- function(r,lam,datapath,batch=0)
     print(i)
     load(sprintf("%s/data%03d",datapath,batch+i))
 
-    colnames(data$X) = 1:1000
+    colnames(data$X) = 1:data$p
     grp = list()
     for ( j in 1:data$g )
       eval(parse(text=paste("grp = c(grp,list(gr",j,"=which(data$pathway[,j])))",sep="")))
