@@ -128,7 +128,7 @@ DG <- function(seed,p,g,gsm,ntrain,ntune,ntest,sigma2,edii=0.4,ediu=0.05,eduu=0.
   }
   else if ( Gmode==2 )
   {
-    set = abs(pcor) > Gthres
+    set = (abs(pcor) > Gthres) | (E0[,1]<=q & E0[,2]<=q) | (E0[,1]>q & E0[,2]>q)
     E = E0[set,]
   }
   nE = nrow(E)
