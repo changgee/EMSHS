@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 100000;
 	R = 100;
 	batch_size = 2;
 
@@ -129,18 +129,18 @@ int main()
 				else
 				{
 					fputs("mu = 0:4*0.1+4.2\n",f);
-					fputs("nu = 0:4*0.4+0.7\n",f);
+					fputs("nu = 0:4*0.5+0.7\n",f);
 				}
 			}
 			else if ( p == 10000 )
 			{
-				fputs("mu = 0:4*0.3+4.7\n",f);
-				fputs("nu = 0:4*0.6+0.35\n",f);
+				fputs("mu = 0:4*0.25+4.9\n",f);
+				fputs("nu = 0:4*0.7+0.5\n",f);
 			}
 			else
 			{
-				fputs("mu = 0:4*0.25+6.2\n",f);
-				fputs("nu = 0:4*0.1+0.7\n",f);
+				fputs("mu = 0:4*0.2+6.3\n",f);
+				fputs("nu = 0:4*0.2+0.5\n",f);
 			}
 			fputs("c = 0:2*2\n",f);
 

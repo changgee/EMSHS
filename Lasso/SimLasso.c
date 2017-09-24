@@ -22,8 +22,8 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
-	R = 100;
+	p = 100000;
+	R = 500;
 	batch_size = 10;
 
 	strcpy(method,"LA");
@@ -57,7 +57,7 @@ int main()
 	m = fopen(fname,"w");
 	chmod(fname,0755);
 
-	for ( s=0 ; s<5 ; s++ )
+	for ( s=0 ; s<2 ; s++ )
 	{
 		sprintf(acronym,"%s_%d_%d",method,p,s+1);
 		sprintf(vname,"res%s",acronym);
