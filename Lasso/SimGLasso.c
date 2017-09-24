@@ -23,7 +23,7 @@ int main()
 	int p, R, s, batch_size, batch, where;
 
 	p = 1000;
-	R = 100;
+	R = 500;
 	batch_size = 1;
 
 	strcpy(method,"GL");
@@ -57,7 +57,7 @@ int main()
 	m = fopen(fname,"w");
 	chmod(fname,0755);
 
-	for ( s=0 ; s<5 ; s++ )
+	for ( s=0 ; s<2 ; s++ )
 	{
 		sprintf(acronym,"%s_%d_%d",method,p,s+1);
 		sprintf(vname,"res%s",acronym);
