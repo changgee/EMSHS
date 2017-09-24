@@ -20,12 +20,12 @@ int main()
 	FILE *f, *g, *h;
 	int p, grp, R, batch, batch_size, ds, where;
 
-	p = 1000;
-	grp = 30;
+//	p = 1000;
+//	grp = 30;
 //	p = 10000;
 //	grp = 200;
-//	p = 100000;
-//	grp = 200;
+	p = 100000;
+	grp = 200;
 	R = 500;
 	batch_size = 2;
 
