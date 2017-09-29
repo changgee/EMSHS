@@ -106,11 +106,15 @@ int main()
 
 			fputs("lam = exp(seq(log(0.0008),log(0.002),length.out=25))\n",f);
 
-			sprintf(line,"%s = SimGLasso(r,lam,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
+			fputs(line,f);
+			fputs("{\n",f);
+			sprintf(line,"  %s = SimGLasso(r,lam,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
-			sprintf(line,"save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
+			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
 			fputs(line,f);
+			fputs("}\n",f);
 			fclose(f);
 		}
 		fclose(g);
