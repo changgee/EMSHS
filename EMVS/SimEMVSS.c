@@ -104,9 +104,9 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("v0 = exp(seq(log(0.00005),log(0.001),length.out=20))\n",f);
+			fputs("v0 = exp(seq(log(0.00005),log(0.005),length.out=20))\n",f);
 			fputs("v1 = 1000\n",f);
-			fputs("eta = 0:4*0.5\n",f);
+			fputs("eta = 0:1\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);

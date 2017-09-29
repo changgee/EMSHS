@@ -104,8 +104,8 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("lam1=0:4*0.01+0.045\n",f);
-			fputs("lam2=0:4*0.1\n",f);
+			fputs("lam1=0:4*0.01+0.04\n",f);
+			fputs("lam2=0:4*0.05\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);
