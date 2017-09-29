@@ -113,6 +113,7 @@ int main()
 			sprintf(line,"  %s = SimNet1(r,lam1,lam2,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
+
 			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
 			fputs(line,f);
 			fputs("}\n",f);
