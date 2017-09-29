@@ -4,9 +4,9 @@ if ( file.exists("EMSH/EMSHS.R") )
   source("EMSH/EMSHS.R")
 
 
-SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
+SimEMSHS <- function(r,munu,nu,a_omega,datapath,batch=0)
 {
-  D1 = length(mu)
+  D1 = length(munu)
   D2 = length(nu)
   D3 = length(a_omega)
 
@@ -34,9 +34,9 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
         for ( d3 in 1:D3 )
         {
           if ( a_omega[d3]>0 )
-            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2],data$E,a_omega=a_omega[d3]))[1]
+            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,munu[d1]-nu[d2],nu[d2],data$E,a_omega=a_omega[d3]))[1]
           else
-            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,mu[d1],nu[d2]))[1]
+            time[d1,d2,d3,i] = system.time(fit <- EMSHS(data$y,data$X,munu[d1]-nu[d2],nu[d2]))[1]
           FNrate[d1,d2,d3,i] = mean(fit$beta[1:data$q,1]==0)
           FPrate[d1,d2,d3,i] = mean(fit$beta[(data$q+1):data$p,1]!=0)
           MSTE[d1,d2,d3,i] = mean((data$ytune-data$Xtune%*%fit$beta[,1])^2)
@@ -50,6 +50,6 @@ SimEMSHS <- function(r,mu,nu,a_omega,datapath,batch=0)
         }
   }  
   
-  list(r=r,batch=batch,mu=mu,nu=nu,a_omega=a_omega,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,omegaii=omegaii,omegaiu=omegaiu,omegauu=omegauu,time=time)
+  list(r=r,batch=batch,munu=munu,nu=nu,a_omega=a_omega,FNrate=FNrate,FPrate=FPrate,MSTE=MSTE,MSPE=MSPE,omegaii=omegaii,omegaiu=omegaiu,omegauu=omegauu,time=time)
 }
 

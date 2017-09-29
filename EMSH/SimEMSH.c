@@ -26,7 +26,7 @@ int main()
 	R = 500;
 	batch_size = 10;
 
-	strcpy(method,"EMSHS");
+	strcpy(method,"EMSH");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -57,7 +57,7 @@ int main()
 	m = fopen(fname,"w");
 	chmod(fname,0755);
 
-	for ( s=0 ; s<5 ; s++ )
+	for ( s=0 ; s<2 ; s++ )
 	{
 		sprintf(acronym,"%s_%d_%d",method,p,s+1);
 		sprintf(vname,"res%s",acronym);
@@ -108,87 +108,42 @@ int main()
 			{
 				if ( s == 0 )
 				{
-					fputs("munu = 0:4*0.05+5.55\n",f);
-					fputs("nu = 0:4*0.1+2\n",f);
-				}
-				else if ( s == 1 )
-				{
-					fputs("munu = 0:4*0.05+5.35\n",f);
+					fputs("munu = 0:4*0.05+4.8\n",f);
 					fputs("nu = 0:4*0.1+0.6\n",f);
-				}
-				else if ( s == 2 )
-				{
-					fputs("munu = 0:4*0.05+6.6\n",f);
-					fputs("nu = 0:4*0.1+2.4\n",f);
-				}
-				else if ( s == 3 )
-				{
-					fputs("munu = 0:4*0.05+6.9\n",f);
-					fputs("nu = 0:4*0.1+2.8\n",f);
 				}
 				else
 				{
-					fputs("munu = 0:4*0.05+5.8\n",f);
-					fputs("nu = 0:4*0.1+1.3\n",f);
+					fputs("munu = 0:4*0.05+8.05\n",f);
+					fputs("nu = 0:4*0.1+4.1\n",f);
 				}
 			}
 			else if ( p == 10000 )
 			{
 				if ( s == 0 )
 				{
-					fputs("munu = 0:4*0.1+6.45\n",f);
-					fputs("nu = 0:4*0.1+0.7\n",f);
-				}
-				else if ( s == 1 )
-				{
-					fputs("munu = 0:4*0.1+6.6\n",f);
-					fputs("nu = 0:4*0.1+0.8\n",f);
-				}
-				else if ( s == 2 )
-				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+2.2\n",f);
-				}
-				else if ( s == 3 )
-				{
-					fputs("munu = 0:4*0.1+7.7\n",f);
-					fputs("nu = 0:4*0.1+2.4\n",f);
+					fputs("munu = 0:4*0.05+6.35\n",f);
+					fputs("nu = 0:4*0.1+0.9\n",f);
 				}
 				else
 				{
-					fputs("munu = 0:4*0.1+6.9\n",f);
-					fputs("nu = 0:4*0.1+1.2\n",f);
+					fputs("munu = 0:4*0.05+6.1\n",f);
+					fputs("nu = 0:4*0.1+0.8\n",f);
 				}
 			}
 			else
 			{
 				if ( s == 0 )
 				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
+					fputs("munu = 0:4*0.1+7\n",f);
 					fputs("nu = 0:4*0.1+0.8\n",f);
-				}
-				else if ( s == 1 )
-				{
-					fputs("munu = 0:4*0.1+8\n",f);
-					fputs("nu = 0:4*0.1+1\n",f);
-				}
-				else if ( s == 2 )
-				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+0.6\n",f);
-				}
-				else if ( s == 3 )
-				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+1\n",f);
 				}
 				else
 				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+0.8\n",f);
+					fputs("munu = 0:4*0.1+7.3\n",f);
+					fputs("nu = 0:4*0.1+0.7\n",f);
 				}
 			}
-			fputs("c = 2\n",f);
+			fputs("c = 0\n",f);
 
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);

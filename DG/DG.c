@@ -25,9 +25,9 @@ int main()
 //	p = 10000;
 //	grp = 200;
 	p = 100000;
-	grp = 200;
+	grp = 250;
 	R = 500;
-	batch_size = 2;
+	batch_size = 1;
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
