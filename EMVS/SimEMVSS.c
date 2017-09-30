@@ -22,9 +22,9 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 1000;
+	p = 10000;
 	R = 500;
-	batch_size = 2;
+	batch_size = 1;
 
 	strcpy(method,"EMVSS");
 
