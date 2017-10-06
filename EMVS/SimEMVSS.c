@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 10000;
+	p = 1000;
 	R = 500;
 	batch_size = 1;
 
@@ -104,7 +104,10 @@ int main()
 			sprintf(line,"datapath = \"%s/p%d_%d\"\n",data,p,s+1);
 			fputs(line,f);
 
-			fputs("v0 = exp(seq(log(0.00005),log(0.005),length.out=20))\n",f);
+			if ( p == 1000 )
+				fputs("v0 = exp(seq(log(0.0004),log(0.1),length.out=20))\n",f);
+			else
+				fputs("v0 = exp(seq(log(0.00008),log(0.002),length.out=20))\n",f);
 			fputs("v1 = 1000\n",f);
 			fputs("eta = 0:1\n",f);
 

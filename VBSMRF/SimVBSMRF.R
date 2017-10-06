@@ -48,7 +48,7 @@ VBSMRFPCA <- function(X,y,Xtest,ytest,Mpk,E,thres,niter,bin)
   evaluate(matlab,"init = 5;")
   
   #  v = getVariable(matlab,c("X","data","Pt","K","Hg","h0","phi","init","niter","optPC","optPLS","MRF","eta","mu","Mpk","a","b"))
-  evaluate(matlab,"[Theta,Gamma,logProb,numpath,numvar,propmove,move,Ylatent] = bvspathMRF_C(X,data,Pt,K,Hg,h0,phi,init,niter,optPC,optPLS,MRF,eta,mu,Mpk,a,b);")
+  evaluate(matlab,"[Theta,Gamma,logProb,numpath,numvar,propmove,move,Ylatent] = bvspathMRF_C(X,data,Pt,K,Hg,h0,phi,init,niter,optPC,optPLS,MRF,eta,mu,double(Mpk),a,b);")
   
   evaluate(matlab,"Theta = Theta((bi+1):niter);")
   evaluate(matlab,"Gamma = Gamma((bi+1):niter);")
