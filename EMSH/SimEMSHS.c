@@ -22,7 +22,7 @@ int main()
 	FILE *f, *g, *h, *m;
 	int p, R, s, batch_size, batch, where;
 
-	p = 100000;
+	p = 10000;
 	R = 500;
 	batch_size = 10;
 
@@ -108,28 +108,28 @@ int main()
 			{
 				if ( s == 0 )
 				{
-					fputs("munu = 0:4*0.05+5.55\n",f);
-					fputs("nu = 0:4*0.1+2\n",f);
+					fputs("munu = 0:4*0.05+5.9\n",f);
+					fputs("nu = 0:4*0.1+1.4\n",f);
 				}
 				else if ( s == 1 )
 				{
-					fputs("munu = 0:4*0.05+5.35\n",f);
-					fputs("nu = 0:4*0.1+0.6\n",f);
+					fputs("munu = 0:4*0.05+5.75\n",f);
+					fputs("nu = 0:4*0.1+1.1\n",f);
 				}
 				else if ( s == 2 )
 				{
-					fputs("munu = 0:4*0.05+6.6\n",f);
-					fputs("nu = 0:4*0.1+2.4\n",f);
+					fputs("munu = 0:4*0.05+7.15\n",f);
+					fputs("nu = 0:4*0.1+3\n",f);
 				}
 				else if ( s == 3 )
 				{
-					fputs("munu = 0:4*0.05+6.9\n",f);
-					fputs("nu = 0:4*0.1+2.8\n",f);
+					fputs("munu = 0:4*0.05+7.05\n",f);
+					fputs("nu = 0:4*0.1+2.9\n",f);
 				}
 				else
 				{
 					fputs("munu = 0:4*0.05+5.8\n",f);
-					fputs("nu = 0:4*0.1+1.3\n",f);
+					fputs("nu = 0:4*0.1+1.2\n",f);
 				}
 			}
 			else if ( p == 10000 )
@@ -151,8 +151,8 @@ int main()
 				}
 				else if ( s == 3 )
 				{
-					fputs("munu = 0:4*0.1+7.7\n",f);
-					fputs("nu = 0:4*0.1+2.4\n",f);
+					fputs("munu = 0:4*0.1+9.3\n",f);
+					fputs("nu = 0:4*0.1+4.1\n",f);
 				}
 				else
 				{
@@ -164,28 +164,28 @@ int main()
 			{
 				if ( s == 0 )
 				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+0.8\n",f);
+					fputs("munu = 0:4*0.1+7.6\n",f);
+					fputs("nu = 0:4*0.1+0.7\n",f);
 				}
 				else if ( s == 1 )
 				{
-					fputs("munu = 0:4*0.1+8\n",f);
-					fputs("nu = 0:4*0.1+1\n",f);
+					fputs("munu = 0:4*0.1+7.9\n",f);
+					fputs("nu = 0:4*0.1+0.9\n",f);
 				}
 				else if ( s == 2 )
 				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
+					fputs("munu = 0:4*0.1+7.3\n",f);
 					fputs("nu = 0:4*0.1+0.6\n",f);
 				}
 				else if ( s == 3 )
 				{
-					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+1\n",f);
+					fputs("munu = 0:4*0.1+7.8\n",f);
+					fputs("nu = 0:4*0.1+1.3\n",f);
 				}
 				else
 				{
 					fputs("munu = 0:4*0.1+7.5\n",f);
-					fputs("nu = 0:4*0.1+0.8\n",f);
+					fputs("nu = 0:4*0.1+0.5\n",f);
 				}
 			}
 			fputs("c = 2\n",f);
