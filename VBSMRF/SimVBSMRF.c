@@ -23,7 +23,7 @@ int main()
 	int p, R, s, batch_size, batch, where;
 
 	p = 1000;
-	R = 100;
+	R = 2;
 	batch_size = 1;
 
 	strcpy(method,"VBSMRF");
@@ -77,12 +77,15 @@ int main()
 			else if ( where == HPC )
 				sprintf(line,"bsub -q qlonglab -e %s.e -o %s.o < %s\n",fname,fname,fname);
 			else
-				sprintf(line,"bsub -q cceb_normal -e %s.e -o %s.o < %s\n",fname,fname,fname);
+				sprintf(line,"bsub -q matlab_normal -e %s.e -o %s.o < %s\n",fname,fname,fname);
 			fputs(line,g);
 
 			f = fopen(fname,"w");
 			if ( where == LPC )
+			{
 				fputs("module load R\n",f);
+				fputs("module load matlab\n",f);
+			}
 			else if ( where == HPC )
 			{
 				fputs("source /etc/profile.d/modules.sh\n",f);
@@ -99,7 +102,7 @@ int main()
 			sprintf(line,"source(\"%s/%s\")\n",home,src);
 			fputs(line,f);
 
-                        sprintf(line,"OpenMatlab(%d,30)\n",9999+R*s+batch);
+                        sprintf(line,"OpenMatlab(%d,120)\n",9999+R*s+batch);
                         fputs(line,f);
                         sprintf(line,"r = %d\n",batch_size);
                         fputs(line,f);
