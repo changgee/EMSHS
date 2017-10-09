@@ -1,7 +1,7 @@
 
 library(R.matlab)
 
-OpenMatlab <- function(port=9999,wait=10)
+OpenMatlab <- function(port=9999,wait=120)
 {
   if ( !exists("matlab") )
   {
@@ -24,7 +24,7 @@ CloseMatlab <- function()
 }
 
 
-VBSMRFPCA <- function(X,y,Xtest,ytest,Mpk,E,thres,niter,bin)
+BVSMRFPCA <- function(X,y,Xtest,ytest,Mpk,E,thres,niter,bin)
 {
   setVariable(matlab,data=cbind(exp(y),1),X=X,Mpk=Mpk,E=E,niter=niter,bi=bin)
   
@@ -80,7 +80,7 @@ VBSMRFPCA <- function(X,y,Xtest,ytest,Mpk,E,thres,niter,bin)
 
 
 
-SimVBSMRF <- function(r,thres,niter,bin,datapath,batch=0)
+SimBVSMRF <- function(r,thres,niter,bin,datapath,batch=0)
 {
   M = length(thres)
 
@@ -96,14 +96,14 @@ SimVBSMRF <- function(r,thres,niter,bin,datapath,batch=0)
     load(sprintf("%s/data%03d",datapath,batch+i))
     
     before = as.vector(Sys.time())
-    fit <- VBSMRFPCA(data$X,data$y,data$Xtune,data$ytune,data$pathway,data$E,thres,niter,bin)
+    fit <- BVSMRFPCA(data$X,data$y,data$Xtune,data$ytune,data$pathway,data$E,thres,niter,bin)
     after = as.vector(Sys.time()) - before
     
     FNrate[,i] = apply(fit$Gamma[1:data$q,]==0,2,mean)
     FPrate[,i] = apply(fit$Gamma[(data$q+1):data$p,]==1,2,mean)
     MSTE[,i] = fit$MSPE
     
-    fit <- VBSMRFPCA(data$X,data$y,data$Xtest,data$ytest,data$pathway,data$E,thres,niter,bin)
+    fit <- BVSMRFPCA(data$X,data$y,data$Xtest,data$ytest,data$pathway,data$E,thres,niter,bin)
     MSPE[,i] = fit$MSPE
     time[i] = after[1]
   }  

@@ -23,10 +23,10 @@ int main()
 	int p, R, s, batch_size, batch, where;
 
 	p = 1000;
-	R = 100;
-	batch_size = 1;
+	R = 500;
+	batch_size = 100;
 
-	strcpy(method,"VBSMRF");
+	strcpy(method,"BVSMRF");
 
 	if ( access("/home/cchan40",X_OK) == 0 )
 	{
@@ -43,9 +43,9 @@ int main()
 		where = LPC;
 		strcpy(master,"/home/changgee/project/EMSHS");
 	}
-	sprintf(home,"%s/VBSMRF",master);
+	sprintf(home,"%s/BVSMRF",master);
 	sprintf(script,"%s/Sim%d",home,p);
-	strcpy(src,"SimVBSMRF.R");
+	strcpy(src,"SimBVSMRF.R");
 
 	sprintf(data,"%s/datasets",master);
 
@@ -77,12 +77,15 @@ int main()
 			else if ( where == HPC )
 				sprintf(line,"bsub -q qlonglab -e %s.e -o %s.o < %s\n",fname,fname,fname);
 			else
-				sprintf(line,"bsub -q cceb_normal -e %s.e -o %s.o < %s\n",fname,fname,fname);
+				sprintf(line,"bsub -q matlab_normal -e %s.e -o %s.o < %s\n",fname,fname,fname);
 			fputs(line,g);
 
 			f = fopen(fname,"w");
 			if ( where == LPC )
+			{
 				fputs("module load R\n",f);
+				fputs("module load matlab\n",f);
+			}
 			else if ( where == HPC )
 			{
 				fputs("source /etc/profile.d/modules.sh\n",f);
@@ -99,7 +102,7 @@ int main()
 			sprintf(line,"source(\"%s/%s\")\n",home,src);
 			fputs(line,f);
 
-                        sprintf(line,"OpenMatlab(%d,30)\n",9999+R*s+batch);
+                        sprintf(line,"OpenMatlab(%d,120)\n",9999+R*s+batch);
                         fputs(line,f);
                         sprintf(line,"r = %d\n",batch_size);
                         fputs(line,f);
@@ -113,7 +116,7 @@ int main()
 			sprintf(line,"if ( !file.exists(\"%s/%s_%03d\") )\n",script,vname,batch+1);
 			fputs(line,f);
 			fputs("{\n",f);
-			sprintf(line,"  %s = SimVBSMRF(r,thres,niter,bin,datapath,batch=%d)\n",vname,batch);
+			sprintf(line,"  %s = SimBVSMRF(r,thres,niter,bin,datapath,batch=%d)\n",vname,batch);
 			fputs(line,f);
 
 			sprintf(line,"  save(%s,file=\"%s/%s_%03d\")\n",vname,script,vname,batch+1);
