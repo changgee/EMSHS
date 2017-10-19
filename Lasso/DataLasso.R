@@ -71,8 +71,8 @@ DataALasso <- function(y,X,w,s1,s2,fold,k)
       for ( d2 in 1:D2 )
       {
         fit = Ridge(X[-ik,]*w[-ik],y[-ik]*w[-ik],s2[d2])
-        w = 1/abs(fit)
-        fit = glmnet(X[-ik,]*w[-ik],y[-ik]*w[-ik],intercept=FALSE,penalty.factor=w,lambda=s1)
+        W = 1/abs(fit)
+        fit = glmnet(X[-ik,]*w[-ik],y[-ik]*w[-ik],intercept=FALSE,penalty.factor=W,lambda=s1)
   
         beta[,j,,d2,i] = matrix(coef(fit)[-1,],p)
         L[j,,d2,i] = apply(beta[,j,,d2,i]!=0,2,sum)
