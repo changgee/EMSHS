@@ -9,7 +9,7 @@ if ( file.exists("~/project/EMSHS/Net/netreg1.2.R") )
 if ( file.exists("Net/netreg1.2.R") )
   source("Net/netreg1.2.R")
 
-DataNet1 <- function(y,X,E,lam1,lam2,fold,k)
+DataNet1 <- function(y,X,E,w,lam1,lam2,fold,k)
 {
   r = ncol(fold)
   K = length(k)
@@ -32,7 +32,7 @@ DataNet1 <- function(y,X,E,lam1,lam2,fold,k)
     {
       ik = which(fold[,i]==k[j])
       
-      fit = glmgraph(X[-ik,],y[-ik],LM,family="gaussian",penalty="lasso",lambda1=lam1,lambda2=lam2)
+      fit = glmgraph(X[-ik,]*w[-ik],y[-ik]*w[-ik],LM,family="gaussian",penalty="lasso",lambda1=lam1,lambda2=lam2)
       beta[1,j,,,i] = mean(y[-ik])
       
       for ( d2 in 1:D2 )
