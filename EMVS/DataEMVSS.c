@@ -25,7 +25,6 @@ int main()
 	double eta;
 
 	K = 5;
-	eta = 0.0;
 
 	strcpy(method,"EMVSS");
 	strcpy(data,"TCGA");
@@ -104,11 +103,11 @@ int main()
 			sprintf(line,"load(\"%s/fold%d\")\n",datadir,K);
 			fputs(line,f);
 
-			fputs("v0 = exp(seq(log(0.001),log(100),length.out=20))\n",f);
+			fputs("v0 = exp(seq(log(0.001),log(10),length.out=20))\n",f);
 			fputs("v1 = 1000\n",f);
 			sprintf(line,"eta = %.1f\n",eta);
 			fputs(line,f);
-			sprintf(line,"%s = DataEMVSS(y,X,v0,v1,eta,E,fold=f,k=%d)\n",vname,i+1);
+			sprintf(line,"%s = DataEMVSS(y,X,w,v0,v1,eta,E,fold=f,k=%d)\n",vname,i+1);
 			fputs(line,f);
 
 			sprintf(line,"save(%s,file=\"%s/%s%02d\")\n",vname,script,vname,i+1);
