@@ -56,7 +56,7 @@ int main()
 	m = fopen(fname,"w");
 	chmod(fname,0755);
 
-	for ( eta=0.0 ; eta<1.01 ; eta+=0.2 )
+	for ( eta=0.0 ; eta<0.41 ; eta+=0.1 )
 	{
 		sprintf(acronym,"%s_%s_%.1f_CV%d",method,data,eta,K);
 		sprintf(vname,"res%s",acronym);
@@ -103,7 +103,7 @@ int main()
 			sprintf(line,"load(\"%s/fold%d\")\n",datadir,K);
 			fputs(line,f);
 
-			fputs("v0 = exp(seq(log(0.001),log(10),length.out=20))\n",f);
+			fputs("v0 = exp(seq(log(0.1),log(500),length.out=20))\n",f);
 			fputs("v1 = 1000\n",f);
 			sprintf(line,"eta = %.1f\n",eta);
 			fputs(line,f);
